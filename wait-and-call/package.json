@@ -16,7 +16,7 @@
   "main": "debounce.js",
   "repository": {
   "type": "git",
-  "url": "https://github.com/bhaskar-f/micro-projects/tree/main/debounce-utils"
+  "url": "https://github.com/bhaskar-f/micro-projects/tree/main/wait-and-call"
 },
  "scripts": {
     "test": "node test.js"
