@@ -1,0 +1,20 @@
+{
+  "name": "debounce-utils",
+  "version": "1.0.0",
+  "description": "A simple debounce utility that prevents unnecessary search calls and sends a request only after the user stops typing.",
+  "keywords": [
+    "debounce",
+    "javascript",
+    "utility",
+    "async",
+    "search",
+    "performance"
+  ],
+  "license": "MIT",
+  "author": "me",
+  "type": "module",
+  "main": "debounce.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
