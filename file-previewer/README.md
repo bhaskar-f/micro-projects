@@ -53,6 +53,9 @@ This project was built to practice working with browser APIs and asynchronous Ja
 - Conditional rendering
 - Event loop and asynchronous execution
 
+## Live Link
+  https://filepreviewer.vercel.app/
+
 ## Project Structure
 
 ```text
