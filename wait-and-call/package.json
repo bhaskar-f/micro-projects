@@ -1,6 +1,6 @@
 {
   "name": "wait-and-call",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple debounce utility that prevents unnecessary search calls and sends a request only after the user stops typing.",
   "keywords": [
     "debounce",
@@ -15,10 +15,10 @@
   "type": "module",
   "main": "debounce.js",
   "repository": {
-  "type": "git",
-  "url": "https://github.com/bhaskar-f/micro-projects/tree/main/wait-and-call"
-},
- "scripts": {
+    "type": "git",
+    "url": "https://github.com/bhaskar-f/micro-projects/tree/main/wait-and-call"
+  },
+  "scripts": {
     "test": "node test.js"
-}
+  }
 }
