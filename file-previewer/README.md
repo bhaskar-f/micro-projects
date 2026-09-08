@@ -54,7 +54,7 @@ This project was built to practice working with browser APIs and asynchronous Ja
 - Event loop and asynchronous execution
 
 ## Live Link
-  https://filepreviewer.vercel.app/
+  [Check out the file previewer](https://filepreviewer.vercel.app/)
 
 ## Project Structure
 
