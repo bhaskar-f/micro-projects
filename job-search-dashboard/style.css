@@ -1,0 +1,61 @@
+body{
+
+    height: 100%;
+}
+main{
+    height: 80%;
+    width: 100%;
+    background-color: #ffffff;
+}
+#keywords{
+    width: 100%;
+    height: 10%;
+    /* background-color: #8f6161; */
+    display: flex;
+    gap: 20px;
+    padding: 10px 0;
+}
+#keywords button{
+    padding: 5px;
+}
+#makeSearch{
+    width: 100%;
+    height: 10%;
+    /* background-color: #7fac70; */
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#searchBar, #searchButton {
+    box-sizing: border-box; 
+}
+#searchBar{
+     -webkit-appearance: none;  /* Fixes Safari / Chrome iOS */
+    appearance: none; 
+    width: 88%;
+    padding: 5px;
+}
+#searchButton{
+    padding: 5px;
+    width: 10%;
+}
+.jobs-ui{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    height: 80%;
+    background-color: ;
+}
+
+
+.job-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid black;
+    padding: 15px; /* Keeps text from hugging the border line */
+    width: 95%;
+}
