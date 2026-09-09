@@ -20,27 +20,30 @@ async function fetchJobs(url) {
   try {
     const fetchedJobobject = await fetch(url);
     const data = await fetchedJobobject.json();
-    
+
     return data.jobs;
   } catch (error) {
     console.log("could not fetch data", error);
   }
 }
 
-const jobsArrayPromise=fetchJobs("https://remotelanders.com/api/jobs");
-let jobsArray=[];
-jobsArrayPromise.then((array)=>{
-    jobsArray=array;
-    console.log(jobsArray);
-})
+const jobsArrayPromise = fetchJobs("https://remotelanders.com/api/jobs");
+let jobsArray = [];
+jobsArrayPromise.then((array) => {
+  jobsArray = array;
+  renderingJobs(jobsArray)
+  console.log(jobsArray);
+});
+
+const jobsContainer = document.querySelector(".jobs-ui");
+
 
 function renderingJobs(jobs) {
-  const jobsContainer = document.querySelector(".jobs-ui");
+  clearContainer();
 
-  
   jobs.forEach((job) => {
     const jobCard = document.createElement("div");
-  jobCard.classList.add("job-card");
+    jobCard.classList.add("job-card");
 
     const jobTitle = document.createElement("span");
     jobTitle.textContent = "Job Title : " + job.title;
@@ -75,33 +78,33 @@ function renderingJobs(jobs) {
   });
 }
 
+const searchBar = document.querySelector("#searchBar");
 
-const searchBar=document.querySelector("#searchBar");
+const searchAfter = debounce(search, 1000);
 
+searchBar.addEventListener("input", (e) => {
+  searchAfter(e.target.value.toLowerCase());
+});
 
-const searchAfter=debounce(search,1000);
-
-searchBar.addEventListener("input",(e)=>{
-    searchAfter(e.target.value.toLowerCase());    
-
-})
-
-
-
-function search(query){
-    console.log(query)
-    const filteredJobs=jobsArray.filter((job)=>job.title.toLowerCase().includes(query));
-    renderingJobs(filteredJobs);
+function clearContainer() {
+  jobsContainer.innerHTML = "";
 }
 
-function debounce(callback,delay){
+function search(query) {
+  console.log(query);
+  const filteredJobs = jobsArray.filter((job) =>
+    job.title.toLowerCase().includes(query),
+  );
+  clearContainer();
+  renderingJobs(filteredJobs);
+}
 
-    let timer;
-    return function(...arg){
-        clearTimeout(timer);
-        timer=setTimeout(()=>{
-            callback(...arg)
-        },delay)
-    }
-
+function debounce(callback, delay) {
+  let timer;
+  return function (...arg) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      callback(...arg);
+    }, delay);
+  };
 }
