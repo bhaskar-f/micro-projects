@@ -79,24 +79,25 @@ function renderingJobs(jobs) {
 const searchBar=document.querySelector("#searchBar");
 
 
-const searchAfter=debounce(search,300);
-searchBar.addEventListener("input",searchAfter)
+const searchAfter=debounce(search,1000);
 
+searchBar.addEventListener("input",(e)=>{
+    searchAfter(e.target.value.toLowerCase());    
+
+})
 
 
 
 function search(query){
     console.log(query)
-    // const filteredJobs=jobsArray.filter((job)=>job.title.toLowerCase().includes(query));
-    // renderingJobs(filteredJobs);
+    const filteredJobs=jobsArray.filter((job)=>job.title.toLowerCase().includes(query));
+    renderingJobs(filteredJobs);
 }
 
 function debounce(callback,delay){
 
     let timer;
-    return function(e){
-        const arg=e.target.value.toLowerCase();
-        console.log(arg);
+    return function(...arg){
         clearTimeout(timer);
         timer=setTimeout(()=>{
             callback(...arg)
