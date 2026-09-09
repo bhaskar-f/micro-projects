@@ -1,4 +1,5 @@
 const roles = [
+"All Jobs",
   "Frontend Developer",
   "Backend Developer",
   "Fullstack Developer",
@@ -6,14 +7,31 @@ const roles = [
   "Senior Developer",
   "DevOps Engineer",
   "SDE 1",
+  "Finance"
 ];
 
+
+const jobsArrayPromise =fetchJobs("https://remotelanders.com/api/jobs");
+let jobsArray = [];
+jobsArrayPromise.then((array) => {
+  jobsArray = array;
+  renderingJobs(jobsArray)
+});
+
 const keywords = document.querySelector("#keywords");
+const jobsContainer = document.querySelector(".jobs-ui");
+loadingState();
 
 roles.forEach((role) => {
-  const button = document.createElement("button");
-  button.textContent = role;
-  keywords.appendChild(button);
+  const keywordButton = document.createElement("button");
+  keywordButton.textContent = role;
+  keywords.appendChild(keywordButton);
+  
+  keywordButton.addEventListener("click",()=>{
+    if(roles.indexOf(role)==0){
+        renderingJobs(jobsArray);
+    }else search(role.toLowerCase());
+  })
 });
 
 async function fetchJobs(url) {
@@ -26,16 +44,24 @@ async function fetchJobs(url) {
     console.log("could not fetch data", error);
   }
 }
+const searchButton=document.querySelector("#searchButton")
 
-const jobsArrayPromise = fetchJobs("https://remotelanders.com/api/jobs");
-let jobsArray = [];
-jobsArrayPromise.then((array) => {
-  jobsArray = array;
-  renderingJobs(jobsArray)
-  console.log(jobsArray);
-});
 
-const jobsContainer = document.querySelector(".jobs-ui");
+
+function loadingState(){
+    clearContainer();
+const loadingText=document.createElement("h1");
+loadingText.id="loading-text"
+loadingText.textContent="Loading..."
+jobsContainer.appendChild(loadingText);
+}
+
+
+
+
+
+
+
 
 
 function renderingJobs(jobs) {
@@ -80,18 +106,27 @@ function renderingJobs(jobs) {
 
 const searchBar = document.querySelector("#searchBar");
 
-const searchAfter = debounce(search, 1000);
+let typedQuery;
 
 searchBar.addEventListener("input", (e) => {
-  searchAfter(e.target.value.toLowerCase());
+  typedQuery=e.target.value.toLowerCase();
+  if(typedQuery===""){
+    clearContainer();
+    renderingJobs(jobsArray);
+  }
+ 
 });
+
+searchButton.addEventListener("click",()=>{
+    loadingState();
+   search(typedQuery);
+})
 
 function clearContainer() {
   jobsContainer.innerHTML = "";
 }
 
 function search(query) {
-  console.log(query);
   const filteredJobs = jobsArray.filter((job) =>
     job.title.toLowerCase().includes(query),
   );
@@ -99,12 +134,12 @@ function search(query) {
   renderingJobs(filteredJobs);
 }
 
-function debounce(callback, delay) {
-  let timer;
-  return function (...arg) {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      callback(...arg);
-    }, delay);
-  };
-}
+// function debounce(callback, delay) {
+//   let timer;
+//   return function (...arg) {
+//     clearTimeout(timer);
+//     timer = setTimeout(() => {
+//       callback(...arg);
+//     }, delay);
+//   };
+// }
