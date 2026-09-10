@@ -1,21 +1,83 @@
 const roles = [
-"All Jobs",
-  "Frontend Developer",
-  "Backend Developer",
-  "Fullstack Developer",
-  "Junior Developer",
-  "Senior Developer",
-  "DevOps Engineer",
-  "SDE 1",
-  "Finance"
+  "All Jobs",
+
+  // Roles
+  "Backend",
+  "Frontend",
+  "Fullstack",
+  "Software Engineer",
+  "DevOps",
+  "Data",
+  "Product",
+  "Designer",
+  "Security",
+  "QA",
+  "Mobile Developer",
+  "Machine Learning",
+  "AI Engineer",
+  "Cloud Engineer",
+  "Database Engineer",
+
+  // JavaScript ecosystem
+  "JavaScript",
+  "TypeScript",
+  "React",
+  "Next.js",
+  "Node.js",
+  "Vue",
+  "Angular",
+  "Svelte",
+  "Express",
+
+  // Languages
+  "Python",
+  "Java",
+  "C++",
+  "C#",
+  "Go",
+  "Rust",
+  "PHP",
+  "Ruby",
+  "Kotlin",
+  "Swift",
+
+  // Cloud / DevOps
+  "AWS",
+  "Azure",
+  "GCP",
+  "Docker",
+  "Kubernetes",
+  "Terraform",
+  "CI/CD",
+
+  // Data
+  "SQL",
+  "PostgreSQL",
+  "MySQL",
+  "MongoDB",
+  "Data Science",
+  "Data Analyst",
+
+  // Other popular technologies
+  "GraphQL",
+  "REST API",
+  "Git",
+  "Linux",
+  "Redis",
+  "Firebase"
 ];
 
 
-const jobsArrayPromise =fetchJobs("https://remotelanders.com/api/jobs");
+const jobsArrayPromise = fetchJobs(
+  "https://jobremotely.io/api/v1/jobs?limit=50"
+);
+
 let jobsArray = [];
+
 jobsArrayPromise.then((array) => {
   jobsArray = array;
-  renderingJobs(jobsArray)
+  console.log(jobsArray);
+  renderingJobs(jobsArray);
 });
 
 const keywords = document.querySelector("#keywords");
@@ -29,17 +91,32 @@ roles.forEach((role) => {
   
   keywordButton.addEventListener("click",()=>{
     if(roles.indexOf(role)==0){
+        loadingState();
         renderingJobs(jobsArray);
-    }else search(role.toLowerCase());
+    }else{
+        loadingState();
+         search(role.toLowerCase());
+    }
   })
+});
+
+const leftArrow = document.querySelector("#left-arrow");
+const rightArrow = document.querySelector("#right-arrow");
+
+rightArrow.addEventListener("click", () => {
+    keywords.scrollLeft += 1600;
+});
+
+leftArrow.addEventListener("click", () => {
+    keywords.scrollLeft -= 1600;
 });
 
 async function fetchJobs(url) {
   try {
     const fetchedJobobject = await fetch(url);
-    const data = await fetchedJobobject.json();
+   const data = await fetchedJobobject.json();
 
-    return data.jobs;
+ return data.data.jobs;
   } catch (error) {
     console.log("could not fetch data", error);
   }
@@ -74,31 +151,49 @@ function renderingJobs(jobs) {
     const jobTitle = document.createElement("span");
     jobTitle.textContent = "Job Title : " + job.title;
 
-    const company = document.createElement("span");
-    company.textContent = "Company : " + job.company; // Fixed: was jobTitle.textContent
+    const category = document.createElement("span");
+    category.textContent = "Category : " + job.category;
+
+    
 
     const jobLocation = document.createElement("span");
     jobLocation.textContent = "Location : " + job.location;
 
-    // const jobDescription = document.createElement("span");
-    // jobDescription.textContent = "Description : " + job.description; // Fixed: was jobLocation.textContent
+    const jobType = document.createElement("span");
+    jobType.textContent = "Type : " + job.jobType;
+
+    
 
     const applyLink = document.createElement("span");
     applyLink.textContent = "Apply Here : "; // Fixed: was jobLocation.textContent
 
     const url = document.createElement("a");
-    url.setAttribute("href", job.applyUrl); // Added: Sets the actual link destination
-    url.textContent = job.applyUrl;
+    url.setAttribute("href", job.url); // Added: Sets the actual link destination
+    url.textContent = job.url;
 
+      const expiryDateTime = new Date(job.expiresAt).toLocaleString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+
+    // 2. Create the element
+    const applyBy = document.createElement("span");
+    applyBy.textContent = "Apply by : " + expiryDateTime;
     // Don't forget to append the anchor link to your span element!
     applyLink.appendChild(url);
 
     jobCard.appendChild(jobTitle);
-    jobCard.appendChild(company);
+    jobCard.appendChild(category);
+   
     jobCard.appendChild(jobLocation);
-    // jobCard.appendChild(jobDescription);
-    applyLink.appendChild(url);
+    jobCard.appendChild(jobType);
+    
     jobCard.appendChild(applyLink);
+    jobCard.appendChild(applyBy);
 
     jobsContainer.appendChild(jobCard);
   });
@@ -126,13 +221,33 @@ function clearContainer() {
   jobsContainer.innerHTML = "";
 }
 
-function search(query) {
-  const filteredJobs = jobsArray.filter((job) =>
-    job.title.toLowerCase().includes(query),
-  );
-  clearContainer();
-  renderingJobs(filteredJobs);
+async function search(query) {
+  try {
+    const response = await fetch(
+      `https://jobremotely.io/api/v1/jobs?search=${encodeURIComponent(query)}&limit=50`
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    clearContainer();
+    renderingJobs(data.data.jobs);
+  } catch (error) {
+    console.error("Could not fetch jobs:", error);
+  }
 }
+
+// async function search(query) {
+// //   const filteredJobs = jobsArray.filter((job) =>
+// //     job.title.toLowerCase().includes(query),
+// //   );
+
+//   clearContainer();
+//   renderingJobs(filteredJobs);
+// }
 
 // function debounce(callback, delay) {
 //   let timer;
