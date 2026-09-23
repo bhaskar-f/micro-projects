@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanban Board</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>Kanban Board</h1>
+
+        <button id="add-task-btn">
+            + Add Task
+        </button>
+    </header>
+
+
+    <main class="board">
+
+        <!-- TODO -->
+        <section class="column" data-status="todo">
+
+            <div class="column-header">
+                <h2>Todo</h2>
+                <span class="task-count">0</span>
+            </div>
+
+            <div class="task-list">
+
+               
+
+
+
+
+              
+            </div>
+
+        </section>
+
+
+        <!-- IN PROGRESS -->
+        <section class="column"  data-status="progress">
+
+            <div class="column-header">
+                <h2>In Progress</h2>
+                <span class="task-count">0</span>
+            </div>
+
+            <div class="task-list">
+
+                
+
+
+                
+            </div>
+
+        </section>
+
+
+        <!-- DONE -->
+        <section class="column" data-status="done">
+
+            <div class="column-header">
+                <h2>Done</h2>
+                <span class="task-count">0</span>
+            </div>
+
+            <div class="task-list">
+
+               
+
+            </div>
+
+        </section>
+
+    </main>
+    <footer><div class="delete-zone">
+         <img src="recycle-bin.png" alt="delete icon" id="delete-icon">
+    </div></footer>
+   
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+
